@@ -117,7 +117,7 @@ namespace Rational.Tests
         {
             _firstRational = new Rationaldigit(2, 2);
             _secondRational = new Rationaldigit(2, 2);
-            var actual = _firstRational+_secondRational;
+            var actual = _firstRational + _secondRational;
             Assert.That(actual.ToString, Is.EqualTo("2"));
         }
 
