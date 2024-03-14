@@ -1,7 +1,4 @@
-﻿using System;
-using System.Data.Common;
-
-public class Rationaldigit
+﻿public class Rationaldigit
 {
     private int numerator;
     public int Numerator
@@ -21,11 +18,17 @@ public class Rationaldigit
     {
         Numerator = a;
 
-        if (b==0)
+        if (b == 0)
         {
             throw new ArgumentException("b can't be equal 0");
         }
         else Denominator = b;
+
+        if (Numerator < 0 && Denominator < 0)
+        {
+            Numerator = -Numerator;
+            Denominator = -Denominator;
+        }
     }
 
     override public string ToString()
@@ -33,11 +36,11 @@ public class Rationaldigit
         Reduction();
         string astring = Numerator.ToString();
         string bstring = Denominator.ToString();
-        if(Numerator == 0)
+        if (Numerator == 0)
         {
             return "0";
         }
-        else if(Denominator == 1)
+        else if (Denominator == 1)
         {
             return $"{astring}";
         }
@@ -49,154 +52,155 @@ public class Rationaldigit
 
     public static Rationaldigit operator +(Rationaldigit a, Rationaldigit b)
     {
-        
-            Rationaldigit c = new(0, 1);
-            if (a.Denominator == b.Denominator)
-            {
-                c.Numerator = a.Numerator + b.Numerator;
-                c.Denominator = a.Denominator;
-            }
-            else if (a.Denominator > b.Denominator)
-            {
-                if (a.Denominator % b.Denominator == 0)
-                {
-                    c.Numerator = a.Numerator + (b.Numerator * (a.Denominator / b.Denominator));
-                    c.Denominator = a.Denominator;
-                }
-                else
-                {
-                    c.Denominator = a.Denominator * b.Denominator;
-                    c.Numerator = (a.Numerator * (c.Denominator / a.Denominator)) + (b.Numerator * (c.Denominator / b.Denominator));
-                }
-            }
-            else
-            {
-                if (b.Denominator % a.Denominator == 0)
-                {
-                    c.Numerator = b.Numerator + (a.Numerator * (b.Denominator / a.Denominator));
-                    c.Denominator = b.Denominator;
-                }
-                else
-                {
-                    c.Denominator = a.Denominator * b.Denominator;
-                    c.Numerator = (a.Numerator * (c.Denominator / a.Denominator)) + (b.Numerator * (c.Denominator / b.Denominator));
-                }
-            }
-            return c;
+
+        Rationaldigit c = new(0, 1);
+        if (a.Denominator == b.Denominator)
+        {
+            c.Numerator = a.Numerator + b.Numerator;
+            c.Denominator = a.Denominator;
         }
-
-
-    public static Rationaldigit operator -(Rationaldigit a, Rationaldigit b)
-    {
-            Rationaldigit c = new(0, 1);
-            if (a.Denominator == b.Denominator)
+        else if (a.Denominator > b.Denominator)
+        {
+            if (a.Denominator % b.Denominator == 0)
             {
-                c.Numerator = a.Numerator - b.Numerator;
+                c.Numerator = a.Numerator + (b.Numerator * (a.Denominator / b.Denominator));
                 c.Denominator = a.Denominator;
             }
             else
             {
                 c.Denominator = a.Denominator * b.Denominator;
-                c.Numerator = a.Numerator * (c.Denominator / a.Denominator) - b.Numerator * (c.Denominator / b.Denominator);
+                c.Numerator = (a.Numerator * (c.Denominator / a.Denominator)) + (b.Numerator * (c.Denominator / b.Denominator));
             }
-            return c;
+        }
+        else
+        {
+            if (b.Denominator % a.Denominator == 0)
+            {
+                c.Numerator = b.Numerator + (a.Numerator * (b.Denominator / a.Denominator));
+                c.Denominator = b.Denominator;
+            }
+            else
+            {
+                c.Denominator = a.Denominator * b.Denominator;
+                c.Numerator = (a.Numerator * (c.Denominator / a.Denominator)) + (b.Numerator * (c.Denominator / b.Denominator));
+            }
+        }
+        return c;
+    }
+
+
+    public static Rationaldigit operator -(Rationaldigit a, Rationaldigit b)
+    {
+        Rationaldigit c = new(0, 1);
+        if (a.Denominator == b.Denominator)
+        {
+            c.Numerator = a.Numerator - b.Numerator;
+            c.Denominator = a.Denominator;
+        }
+        else
+        {
+            c.Denominator = a.Denominator * b.Denominator;
+            c.Numerator = a.Numerator * (c.Denominator / a.Denominator) - b.Numerator * (c.Denominator / b.Denominator);
+        }
+        return c;
     }
 
     public static Rationaldigit operator *(Rationaldigit a, Rationaldigit b)
     {
-            Rationaldigit c = new(0, 1);
-            c.Numerator = a.Numerator * b.Numerator;
-            c.Denominator = a.Denominator * b.Denominator;
-            return c;
+        Rationaldigit c = new(0, 1);
+        c.Numerator = a.Numerator * b.Numerator;
+        c.Denominator = a.Denominator * b.Denominator;
+        return c;
     }
 
     public static Rationaldigit operator /(Rationaldigit a, Rationaldigit b)
     {
-            Rationaldigit c = new(0, 1);
-            c.Numerator = a.Numerator * b.Denominator;
-            c.Denominator = a.Denominator * b.Numerator;
-            return c;
+        Rationaldigit c = new(0, 1);
+        c.Numerator = a.Numerator * b.Denominator;
+        c.Denominator = a.Denominator * b.Numerator;
+        return c;
     }
 
     public static Rationaldigit operator -(Rationaldigit a)
     {
-            Rationaldigit c = new(0, 1);
-            c.Numerator = a.Numerator;
-            c.Denominator = a.Denominator;
-            if (a.Numerator > 0 || a.Denominator > 0)
-            {
-                if (a.Numerator > 0 && a.Denominator > 0)
-                {
-                    c.Numerator = 0 - a.Numerator;
-                }
-                else if (a.Numerator>0)
-                    c.Numerator = 0 - a.Numerator;
-                else if (a.Denominator > 0)
-                    c.Denominator = 0 - a.Denominator;
-            }
-            else
+        Rationaldigit c = new(0, 1);
+        c.Numerator = a.Numerator;
+        c.Denominator = a.Denominator;
+        if (a.Numerator > 0 || a.Denominator > 0)
+        {
+            if (a.Numerator > 0 && a.Denominator > 0)
             {
                 c.Numerator = 0 - a.Numerator;
+            }
+            else if (a.Numerator > 0)
+                c.Numerator = 0 - a.Numerator;
+            else if (a.Denominator > 0)
                 c.Denominator = 0 - a.Denominator;
-            }
-            if(c.Numerator < 0 && c.Denominator<0) {
-                c.Numerator = Math.Abs(c.Numerator);
-                c.Denominator=Math.Abs(c.Denominator);
-            }
-            return c;
+        }
+        else
+        {
+            c.Numerator = 0 - a.Numerator;
+            c.Denominator = 0 - a.Denominator;
+        }
+        if (c.Numerator < 0 && c.Denominator < 0)
+        {
+            c.Numerator = Math.Abs(c.Numerator);
+            c.Denominator = Math.Abs(c.Denominator);
+        }
+        return c;
     }
 
     public static bool operator ==(Rationaldigit a, Rationaldigit b)
     {
-            if (a.Denominator == b.Denominator && a.Numerator == b.Numerator)
-                return true;
-            else return false;
+        if (a.Denominator == b.Denominator && a.Numerator == b.Numerator)
+            return true;
+        else return false;
     }
 
     public static bool operator !=(Rationaldigit a, Rationaldigit b)
     {
-            if (a.Denominator != b.Denominator || a.Numerator != b.Numerator)
-                return true;
-            else return false;    
+        if (a.Denominator != b.Denominator || a.Numerator != b.Numerator)
+            return true;
+        else return false;
     }
     public static bool operator >(Rationaldigit a, Rationaldigit b)
     {
-            double a1 = a.Numerator / a.Denominator;
-            double b1 = b.Numerator / b.Denominator;
-            if (a1 > b1)
-                return true;
-            else
-                return false;
+        double a1 = a.Numerator / a.Denominator;
+        double b1 = b.Numerator / b.Denominator;
+        if (a1 > b1)
+            return true;
+        else
+            return false;
     }
 
     public static bool operator <(Rationaldigit a, Rationaldigit b)
     {
-            double a1 = a.Numerator / a.Denominator;
-            double b1 = b.Numerator / b.Denominator;
-            if (a1 < b1)
-                return true;
-            else
-                return false;
+        double a1 = a.Numerator / a.Denominator;
+        double b1 = b.Numerator / b.Denominator;
+        if (a1 < b1)
+            return true;
+        else
+            return false;
     }
 
-    public static bool operator >= (Rationaldigit a, Rationaldigit b)
+    public static bool operator >=(Rationaldigit a, Rationaldigit b)
     {
-            double a1 = a.Numerator / a.Denominator;
-            double b1 = b.Numerator / b.Denominator;
-            if (a1 >= b1)
-                return true;
-            else
-                return false;
+        double a1 = a.Numerator / a.Denominator;
+        double b1 = b.Numerator / b.Denominator;
+        if (a1 >= b1)
+            return true;
+        else
+            return false;
     }
 
-    public static bool operator <= (Rationaldigit a, Rationaldigit b)
+    public static bool operator <=(Rationaldigit a, Rationaldigit b)
     {
-            double a1 = a.Numerator / a.Denominator;
-            double b1 = b.Numerator / b.Denominator;
-            if (a1 <= b1)
-                return true;
-            else
-                return false;
+        double a1 = a.Numerator / a.Denominator;
+        double b1 = b.Numerator / b.Denominator;
+        if (a1 <= b1)
+            return true;
+        else
+            return false;
     }
 
     private void Reduction()

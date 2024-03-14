@@ -113,6 +113,14 @@ namespace Rational.Tests
         }
 
         [Test]
+        public void Test15()
+        {
+            _firstRational = new Rationaldigit(-2, -1);
+            var actual = -_firstRational;
+            Assert.That(actual.Numerator, Is.EqualTo(-2));
+        }
+
+        [Test]
         public void Test12()
         {
             _firstRational = new Rationaldigit(2, 2);
