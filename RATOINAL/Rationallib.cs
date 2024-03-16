@@ -20,7 +20,8 @@
 
         if (b == 0)
         {
-            throw new ArgumentException("b can't be equal 0");
+            Exception exception = new Exception("0 В ЗНАМЕНАТЕЛЕ.");
+            throw new ArgumentException("b can't be equal 0.", exception);
         }
         else Denominator = b;
 
@@ -229,5 +230,6 @@ class Program
 {
     static void Main()
     {
+        Rationaldigit a = new(1, 0);
     }
 }
